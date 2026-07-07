@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Budgie Lingo</title>
+</head>
+<body>
+<script>
+  fetch('/api/me')
+    .then(res => {
+      if (res.ok) window.location.href = 'dashboard.html';
+      else window.location.href = 'login.html';
+    })
+    .catch(() => { window.location.href = 'login.html'; });
+</script>
+</body>
+</html>

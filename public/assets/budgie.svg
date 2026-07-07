@@ -1,0 +1,49 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- soft ground shadow -->
+  <ellipse cx="100" cy="178" rx="42" ry="8" fill="#00000014"/>
+
+  <!-- tail -->
+  <path d="M120 130 Q145 140 150 165 Q130 158 118 145 Z" fill="#7ec8e3"/>
+
+  <!-- body -->
+  <ellipse cx="100" cy="120" rx="55" ry="50" fill="#a8ddf0"/>
+  <ellipse cx="100" cy="130" rx="38" ry="32" fill="#fdfcf7"/>
+
+  <!-- wing -->
+  <path d="M138 95 Q160 110 150 145 Q130 140 122 110 Z" fill="#5fb8dd"/>
+  <path d="M138 95 Q160 110 150 145 Q130 140 122 110 Z" fill="none" stroke="#4aa3cc" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- head -->
+  <circle cx="90" cy="72" r="46" fill="#ade0f2"/>
+
+  <!-- face mask (budgies have a paler face) -->
+  <ellipse cx="90" cy="82" rx="34" ry="26" fill="#fdfcf7"/>
+
+  <!-- cheek spots -->
+  <circle cx="62" cy="80" r="4" fill="#2f4858" opacity="0.55"/>
+  <circle cx="118" cy="80" r="4" fill="#2f4858" opacity="0.55"/>
+
+  <!-- forehead yellow patch -->
+  <path d="M62 48 Q90 30 118 48 Q108 60 90 60 Q72 60 62 48 Z" fill="#ffe27a"/>
+
+  <!-- eyes -->
+  <circle cx="76" cy="76" r="7" fill="#2f2f2f"/>
+  <circle cx="104" cy="76" r="7" fill="#2f2f2f"/>
+  <circle cx="78.5" cy="73.5" r="2.3" fill="#ffffff"/>
+  <circle cx="106.5" cy="73.5" r="2.3" fill="#ffffff"/>
+
+  <!-- blush -->
+  <ellipse cx="65" cy="90" rx="6" ry="4" fill="#ffb6c8" opacity="0.7"/>
+  <ellipse cx="115" cy="90" rx="6" ry="4" fill="#ffb6c8" opacity="0.7"/>
+
+  <!-- beak -->
+  <path d="M84 92 Q90 106 96 92 Q90 100 84 92 Z" fill="#eab54e"/>
+  <path d="M84 92 Q90 100 96 92 Q90 96 84 92 Z" fill="#d99e3a"/>
+
+  <!-- little feet -->
+  <path d="M78 168 L74 178 M78 168 L82 177" stroke="#eab54e" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M110 168 L106 177 M110 168 L114 178" stroke="#eab54e" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- head feather flick -->
+  <path d="M90 26 Q94 14 100 24 Q94 22 90 26 Z" fill="#5fb8dd"/>
+</svg>

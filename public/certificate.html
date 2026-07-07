@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate — Budgie Lingo</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar no-print">
+  <div class="brand">
+    <img src="assets/budgie.svg" alt="Budgie">
+    Budgie Lingo
+  </div>
+  <div class="user-controls">
+    <a href="dashboard.html" class="btn small secondary">← Dashboard</a>
+  </div>
+</div>
+
+<main class="container">
+  <div id="certWrap"></div>
+  <div style="text-align:center" class="no-print">
+    <button class="btn" id="printBtn" style="max-width:260px; margin:0 auto">Download / Print certificate</button>
+  </div>
+</main>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const langCode = params.get('lang');
+
+  async function load() {
+    const res = await fetch(`/api/certificate/${langCode}`);
+    if (!res.ok) {
+      document.getElementById('certWrap').innerHTML = `
+        <div class="empty-state">
+          <img src="assets/budgie.svg" class="mascot" alt="Budgie">
+          Finish all the lessons in a language to unlock its certificate!
+        </div>`;
+      return;
+    }
+    const data = await res.json();
+    const dateStr = new Date(data.completedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    document.getElementById('certWrap').innerHTML = `
+      <div class="certificate">
+        <img src="assets/budgie.svg" alt="Budgie" style="width:70px; margin-bottom:1rem;">
+        <div class="cert-title">Certificate of Completion</div>
+        <div class="cert-sub">Budgie Lingo</div>
+        <div class="cert-name">${data.name}</div>
+        <div class="cert-body">has successfully completed the beginner course in</div>
+        <div class="cert-lang">${data.languageName}</div>
+        <div class="cert-date">Completed on ${dateStr}</div>
+      </div>
+    `;
+  }
+
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  load();
+</script>
+</body>
+</html>
