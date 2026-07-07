@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const PDFDocument = require('pdfkit');
 
 const User = require('./models/User');
 const Enrollment = require('./models/Enrollment');
@@ -213,7 +214,62 @@ app.post('/api/courses/:code/lessons/:lessonId/complete', requireAuth, async (re
   }
 });
 
-// ---------------- CERTIFICATE ----------------
+// ---------------- STUDY NOTES PDF ----------------
+
+app.get('/api/courses/:code/notes.pdf', requireAuth, async (req, res) => {
+  const course = COURSES[req.params.code];
+  if (!course) return res.status(404).json({ error: 'Course not found' });
+
+  const skyDeep = '#5fb8dd';
+  const ink = '#2f4858';
+  const inkSoft = '#5c7688';
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename="${course.code}-study-notes.pdf"`);
+
+  const doc = new PDFDocument({ margin: 50, size: 'A4' });
+  doc.pipe(res);
+
+  // --- Cover ---
+  doc.rect(0, 0, doc.page.width, 170).fill('#ADD8E6');
+  doc.fillColor(ink).fontSize(30).font('Helvetica-Bold')
+     .text('Budgie Lingo', 50, 60);
+  doc.fontSize(16).font('Helvetica')
+     .text('Study Notes', 50, 100);
+  doc.fontSize(22).font('Helvetica-Bold').fillColor(skyDeep)
+     .text(course.name, 50, 130);
+
+  doc.moveDown(4);
+  doc.fillColor(inkSoft).fontSize(11).font('Helvetica')
+     .text('All the vocabulary and phrases from every lesson in this course, in one place — use this to study before or during your quizzes.', 50, 200, { width: 495 });
+
+  doc.moveDown(2);
+
+  // --- Vocabulary sections ---
+  course.lessons.forEach((lesson, idx) => {
+    if (doc.y > 680) doc.addPage();
+
+    doc.moveDown(1);
+    doc.fillColor(skyDeep).fontSize(15).font('Helvetica-Bold')
+       .text(`${idx + 1}. ${lesson.title}`);
+    doc.moveTo(50, doc.y + 3).lineTo(545, doc.y + 3).strokeColor('#ADD8E6').lineWidth(2).stroke();
+    doc.moveDown(0.6);
+
+    const vocab = lesson.vocab || [];
+    vocab.forEach(v => {
+      if (doc.y > 740) doc.addPage();
+      doc.fillColor(ink).fontSize(11).font('Helvetica-Bold')
+         .text(v.term, 60, doc.y, { continued: true, width: 480 });
+      doc.font('Helvetica').fillColor(inkSoft)
+         .text('   —   ' + v.meaning);
+      doc.moveDown(0.35);
+    });
+  });
+
+  doc.end();
+});
+
+
 
 app.get('/api/certificate/:code', requireAuth, async (req, res) => {
   const enrollment = await Enrollment.findOne({ userId: req.session.userId, languageCode: req.params.code });
